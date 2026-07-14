@@ -16,3 +16,14 @@ Mit Docker Compose:
 ```bash
 docker compose up
 ```
+
+### Multi Arch Build
+Create Multi Arch Builder:
+```bash
+docker buildx create --name container-builder --driver docker-container --bootstrap --use
+```
+
+Do Multi Arch Build:
+```bash
+docker buildx bake --push
+```
