@@ -5,6 +5,7 @@ import (
 	//	"net/http"
 
 	"forgejo_event_listener/internal/config"
+	"io"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -32,26 +33,29 @@ func StartServer() {
 		c.Next()
 	})
 
-	// Beispiel Route
-	/*
-		   		r.GET("/health", func(c *gin.Context) {
-					c.JSON(http.StatusOK, gin.H{
-						"status": "ok",
-					})
-				})
-
-				r.GET("/fetch", func(c *gin.Context) {
-				client.ExampleFetch()
-				c.JSON(http.StatusOK, gin.H{
-					"status": "ok",
-				})
-			})
-
-	*/
-
-	r.GET("/*param", func(c *gin.Context) {
+	// Healthcheck Route
+	r.GET("/health", func(c *gin.Context) {
 		c.JSON(http.StatusOK, gin.H{
-			"message": "Hello, World!",
+			"status": "ok",
+		})
+	})
+
+	// Debug Api Route
+	r.POST("/api/*param", func(c *gin.Context) {
+		param := c.Param("param")
+		log.Info().Msgf("API Request: %s", param)
+		json, err := io.ReadAll(c.Request.Body)
+		if err != nil {
+			log.Error().Msg("Fehler beim lesen des Request-Body")
+			c.JSON(http.StatusInternalServerError, gin.H{
+				"error": "Fehler beim lesen des Request-Body",
+			})
+			return
+		}
+
+		log.Info().Msgf("API Request Body: %s", json)
+		c.JSON(http.StatusOK, gin.H{
+			"Status": "OK",
 		})
 	})
 
