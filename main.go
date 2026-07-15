@@ -1,7 +1,7 @@
 package main
 
 import (
-	"forgejo_event_listener/cmd"
+	"dynamic_runner_subsystem/cmd"
 )
 
 func main() {

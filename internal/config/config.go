@@ -7,17 +7,17 @@ import (
 	"github.com/rs/zerolog/log"
 )
 
-// Load lädt die Umgebungsvariablen aus einer .env Datei
+// Load reads environment variables from a .env file
 func Load() {
 	err := godotenv.Load()
 	if err != nil {
-		log.Warn().Err(err).Msg("Keine .env Datei gefunden oder Fehler beim Laden")
+		log.Warn().Err(err).Msg("No .env file found or failed to load it")
 	} else {
-		log.Info().Msg(".env Datei erfolgreich geladen")
+		log.Info().Msg(".env file loaded successfully")
 	}
 }
 
-// GetEnv ist ein Helper, um Umgebungsvariablen mit einem Default-Wert abzurufen
+// GetEnv returns an environment variable or a fallback value
 func GetEnv(key, fallback string) string {
 	if value, ok := os.LookupEnv(key); ok {
 		return value

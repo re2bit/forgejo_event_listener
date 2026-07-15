@@ -1,10 +1,10 @@
 package api
 
 import (
-	//	"forgejo_event_listener/internal/client"
+	//	"dynamic_runner_subsystem/internal/client"
 	//	"net/http"
 
-	"forgejo_event_listener/internal/config"
+	"dynamic_runner_subsystem/internal/config"
 	"io"
 	"net/http"
 
@@ -12,19 +12,19 @@ import (
 	"github.com/rs/zerolog/log"
 )
 
-// StartServer initialisiert und startet den Gin-Server
+// StartServer initializes and starts the Gin server
 func StartServer() {
-	// Gin in den Release-Modus versetzen, wenn gewünscht
+	// Enable Gin release mode when requested
 	if config.GetEnv("GIN_MODE", "debug") == "release" {
 		gin.SetMode(gin.ReleaseMode)
 	}
 
 	r := gin.New()
 
-	// Standard Middlewares
+	// Standard middleware
 	r.Use(gin.Recovery())
 
-	// Logger Middleware (optional, wir können auch Zerolog direkt nutzen)
+	// Request logging middleware
 	r.Use(func(c *gin.Context) {
 		log.Info().
 			Str("method", c.Request.Method).
@@ -33,22 +33,22 @@ func StartServer() {
 		c.Next()
 	})
 
-	// Healthcheck Route
+	// Health check route
 	r.GET("/health", func(c *gin.Context) {
 		c.JSON(http.StatusOK, gin.H{
 			"status": "ok",
 		})
 	})
 
-	// Debug Api Route
+	// Debug API route
 	r.POST("/api/*param", func(c *gin.Context) {
 		param := c.Param("param")
 		log.Info().Msgf("API Request: %s", param)
 		json, err := io.ReadAll(c.Request.Body)
 		if err != nil {
-			log.Error().Msg("Fehler beim lesen des Request-Body")
+			log.Error().Msg("Failed to read request body")
 			c.JSON(http.StatusInternalServerError, gin.H{
-				"error": "Fehler beim lesen des Request-Body",
+				"error": "Failed to read request body",
 			})
 			return
 		}
@@ -60,9 +60,9 @@ func StartServer() {
 	})
 
 	port := config.GetEnv("PORT", "8080")
-	log.Info().Msgf("Server startet auf Port %s", port)
+	log.Info().Msgf("Server starts on port %s", port)
 
 	if err := r.Run(":" + port); err != nil {
-		log.Fatal().Err(err).Msg("Fehler beim Starten des Servers")
+		log.Fatal().Err(err).Msg("Failed to start server")
 	}
 }

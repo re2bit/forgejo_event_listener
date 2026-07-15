@@ -3,18 +3,18 @@ package cmd
 import (
 	"os"
 
-	"forgejo_event_listener/internal/config"
-	"forgejo_event_listener/internal/logger"
+	"dynamic_runner_subsystem/internal/config"
+	"dynamic_runner_subsystem/internal/logger"
 	"github.com/spf13/cobra"
 )
 
 var rootCmd = &cobra.Command{
-	Use:   "forgejo_event_listener",
-	Short: "Ein Listener für Forgejo Events",
-	Long:  `Eine Applikation, die auf Webhooks von Forgejo reagiert und diese verarbeitet.`,
+	Use:   "dynamic_runner_subsystem",
+	Short: "Manages dynamic Forgejo runners",
+	Long:  `A subsystem for dynamic Forgejo runners and webhook provisioning.`,
 }
 
-// Execute führt das Root-Kommando aus
+// Execute runs the root command
 func Execute() {
 	err := rootCmd.Execute()
 	if err != nil {
@@ -23,7 +23,7 @@ func Execute() {
 }
 
 func init() {
-	// Initialisierungen, die vor jedem Kommando laufen sollen
+	// Initialize dependencies required by every command
 	cobra.OnInitialize(func() {
 		logger.Init()
 		config.Load()

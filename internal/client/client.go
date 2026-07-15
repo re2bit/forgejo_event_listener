@@ -5,7 +5,7 @@ import (
 	"github.com/rs/zerolog/log"
 )
 
-// ExampleFetch zeigt die Verwendung von Resty
+// ExampleFetch demonstrates Resty usage
 func ExampleFetch() {
 	client := resty.New()
 
@@ -13,12 +13,12 @@ func ExampleFetch() {
 		Get("https://httpbin.org/get")
 
 	if err != nil {
-		log.Error().Err(err).Msg("Fehler beim HTTP-Request")
+		log.Error().Err(err).Msg("HTTP request failed")
 		return
 	}
 
 	log.Info().
 		Int("status", resp.StatusCode()).
 		Str("body", string(resp.Body()[:min(len(resp.Body()), 50)])).
-		Msg("HTTP-Request erfolgreich")
+		Msg("HTTP request succeeded")
 }

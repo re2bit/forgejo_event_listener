@@ -1,16 +1,16 @@
 package cmd
 
 import (
-	"forgejo_event_listener/internal/api"
+	"dynamic_runner_subsystem/internal/api"
 
 	"github.com/spf13/cobra"
 )
 
 var serveCmd = &cobra.Command{
 	Use:   "serve",
-	Short: "Startet den API Server",
+	Short: "Starts the API server",
 	Run: func(cmd *cobra.Command, args []string) {
-		// Startet den Gin Server
+		// Starts the Gin server
 		api.StartServer()
 	},
 }

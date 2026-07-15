@@ -8,9 +8,9 @@ import (
 	"github.com/rs/zerolog/log"
 )
 
-// Init initialisiert das globale Zerolog-Logger-Setup
+// Init initializes the global Zerolog logger
 func Init() {
-	// Konsolenausgabe für bessere Lesbarkeit während der Entwicklung
+	// Use console output for readability during development
 	output := zerolog.ConsoleWriter{
 		Out:        os.Stdout,
 		TimeFormat: time.RFC3339,
@@ -18,6 +18,6 @@ func Init() {
 
 	log.Logger = zerolog.New(output).With().Timestamp().Caller().Logger()
 
-	// Standardmäßig auf Info-Level setzen, falls nicht anders konfiguriert
+	// Use info level unless configured otherwise
 	zerolog.SetGlobalLevel(zerolog.InfoLevel)
 }

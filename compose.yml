@@ -1,5 +1,5 @@
 include:
-  - path: compose/forgejo_event_listener.yml
+  - path: compose/dynamic-runner-subsystem.yml
 
 #services:
   # Zusätzliche Services können hier definiert werden

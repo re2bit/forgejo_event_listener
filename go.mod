@@ -1,4 +1,4 @@
-module forgejo_event_listener
+module dynamic_runner_subsystem
 
 go 1.26
 
